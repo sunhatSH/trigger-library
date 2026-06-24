@@ -1,34 +1,42 @@
 # trigger-library
 
 Official optional triggers for [triggerctl](https://github.com/sunhatSH/triggers).  
-**Separate repository** — triggerctl is the engine; this repo is the template library.
+**Separate repository** — triggerctl is the engine; this repo is the template store.
 
 Nothing here is auto-installed into your registry. After installing triggerctl:
 
 ```bash
-triggerctl library sync          # clone → ~/.local/share/triggerctl/library
-triggerctl library list
-triggerctl library install rest-reminder auto-commit-push
+triggerctl fetch                 # → ~/.local/share/triggerctl/library
+triggerctl list --store
+triggerctl add rest-reminder --store
+triggerctl add rest-reminder auto-commit-push --store
 ```
 
-## Sync sources
+## Sync sources (`triggerctl fetch --source …`)
 
 | SOURCE form | Example |
 |---|---|
-| Default remote | `triggerctl library sync` → `sunhatSH/trigger-library` |
-| GitHub shorthand | `triggerctl library sync --source sunhatSH/trigger-library` |
-| Git URL | `triggerctl library sync --source https://github.com/you/triggers.git` |
-| Local path | `triggerctl library sync --source /path/to/trigger-library` |
+| Default remote | `triggerctl fetch` → `sunhatSH/trigger-library` |
+| GitHub shorthand | `triggerctl fetch --source sunhatSH/trigger-library` |
+| Git URL | `triggerctl fetch --source https://github.com/you/triggers.git` |
+| Local path | `triggerctl fetch --source /path/to/trigger-library` |
 
 Environment:
 
 - `TRIGGERCTL_LIBRARY` — local fixed directory (default `~/.local/share/triggerctl/library`)
-- `TRIGGERCTL_LIBRARY_REMOTE` — default remote for sync (default `sunhatSH/trigger-library`)
+- `TRIGGERCTL_LIBRARY_REMOTE` — default remote for fetch (default `sunhatSH/trigger-library`)
+
+## Ad-hoc source (no fetch)
+
+```bash
+triggerctl list --store --source ./session
+triggerctl add rest-reminder --store --source /path/to/trigger-library
+```
 
 ## Layout
 
 ```
-manifest.yaml     # index for `triggerctl library list`
+manifest.yaml     # index for `triggerctl list --store`
 session/          # semantic session triggers (hook)
 poll/             # time / event / combo (triggerctl poll)
 ```
@@ -43,10 +51,3 @@ poll/             # time / event / combo (triggerctl poll)
 | `daily-backup` | time | Daily backup at 02:00 |
 | `on-train-done` | event | Probe when done.flag exists |
 | `gated-nightly` | combo | Schedule AND probe |
-
-## Ad-hoc source (no sync)
-
-```bash
-triggerctl library list --source ./session
-triggerctl library install rest-reminder --source /path/to/trigger-library
-```
