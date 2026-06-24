@@ -6,37 +6,32 @@ Official optional triggers for [triggerctl](https://github.com/sunhatSH/triggers
 Nothing here is auto-installed into your registry. After installing triggerctl:
 
 ```bash
-triggerctl fetch                 # → ~/.local/share/triggerctl/library
-triggerctl list                  # 未安装 / 已启用 / 已关闭
-triggerctl add rest-reminder --store
-triggerctl add rest-reminder auto-commit-push --store
+triggerctl list
+triggerctl install rest-reminder
+triggerctl install rest-reminder auto-commit-push
 ```
 
-## Sync sources (`triggerctl fetch --source …`)
+First `install` auto-syncs this repo to a fixed local cache (default hidden).
 
-| SOURCE form | Example |
-|---|---|
-| Default remote | `triggerctl fetch` → `sunhatSH/trigger-library` |
-| GitHub shorthand | `triggerctl fetch --source sunhatSH/trigger-library` |
-| Git URL | `triggerctl fetch --source https://github.com/you/triggers.git` |
-| Local path | `triggerctl fetch --source /path/to/trigger-library` |
+## Install from a specific path
+
+```bash
+triggerctl install rest-reminder --from sunhatSH/trigger-library
+triggerctl install --from /path/to/trigger-library/session/rest-reminder.md
+triggerctl install --from <PATH> --list    # preview only
+```
+
+`PATH`: `owner/repo[/path]`, git URL, local directory, or a single `.md`.
 
 Environment:
 
 - `TRIGGERCTL_LIBRARY` — local fixed directory (default `~/.local/share/triggerctl/library`)
-- `TRIGGERCTL_LIBRARY_REMOTE` — default remote for fetch (default `sunhatSH/trigger-library`)
-
-## Ad-hoc source (no fetch)
-
-```bash
-triggerctl list --store --source ./session
-triggerctl add rest-reminder --store --source /path/to/trigger-library
-```
+- `TRIGGERCTL_LIBRARY_REMOTE` — default remote for auto-sync (default `sunhatSH/trigger-library`)
 
 ## Layout
 
 ```
-manifest.yaml     # index for `triggerctl list --store`
+manifest.yaml     # index for `triggerctl list`
 session/          # semantic session triggers (hook)
 poll/             # time / event / combo (triggerctl poll)
 ```
