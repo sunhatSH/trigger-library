@@ -28,6 +28,29 @@ Environment:
 - `TRIGGERCTL_LIBRARY` — local fixed directory (default `~/.local/share/triggerctl/library`)
 - `TRIGGERCTL_LIBRARY_REMOTE` — default remote for auto-sync (default `sunhatSH/trigger-library`)
 
+## Agent compatibility
+
+All triggers work with **Claude Code**, **Hermes Agent**, and **Codex CLI** — the same
+registry and semantics are shared across agents. Hook injection and poll execution are
+handled by triggerctl's agent abstraction layer.
+
+| Agent | Session hook | Poll execution | Status bar |
+|---|---|---|---|
+| Claude Code | `UserPromptSubmit` → `triggerctl hook` | `claude -p` (default) | `triggerctl statusline` |
+| Hermes | `pre_llm_call` → `triggerctl hermes-hook` | `hermes chat -q` | `triggerctl doctor` |
+| Codex CLI | `UserPromptSubmit` → `triggerctl codex-hook` | `codex exec` | `triggerctl doctor` |
+
+Install agent integration:
+
+```bash
+triggerctl install --hook          # Claude Code (default)
+triggerctl install --hermes        # Hermes Agent (hook + skill)
+triggerctl install --codex         # Codex CLI (hook + skill)
+```
+
+Each trigger's frontmatter declares compatible agents via the `agents:` field in
+`manifest.yaml`. All current triggers support all three agents.
+
 ## Layout
 
 ```
@@ -38,11 +61,11 @@ poll/             # time / event / combo (triggerctl poll)
 
 ## Triggers
 
-| Name | Kind | Description |
-|---|---|---|
-| `rest-reminder` | session | Rest window via statusLine (22:00–10:00) |
-| `auto-commit-push` | session | Commit/push when feature complete |
-| `commit-on-feature` | session | Chinese commit-on-feature template |
-| `daily-backup` | time | Daily backup at 02:00 |
-| `on-train-done` | event | Probe when done.flag exists |
-| `gated-nightly` | combo | Schedule AND probe |
+| Name | Kind | Agents | Description |
+|---|---|---|---|
+| `rest-reminder` | session | claude, hermes, codex | Rest window via statusLine (22:00–10:00) |
+| `auto-commit-push` | session | claude, hermes, codex | Commit/push when feature complete |
+| `commit-on-feature` | session | claude, hermes, codex | Chinese commit-on-feature template |
+| `daily-backup` | time | claude, hermes, codex | Daily backup at 02:00 |
+| `on-train-done` | event | claude, hermes, codex | Probe when done.flag exists |
+| `gated-nightly` | combo | claude, hermes, codex | Schedule AND probe |

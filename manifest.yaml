@@ -8,6 +8,7 @@ triggers:
     kind: session
     category: wellbeing
     inject: false
+    agents: [claude, hermes, codex]
     description: Rest window hints via statusLine (22:00–10:00 local, UTC+8 default)
 
   - name: auto-commit-push
@@ -15,6 +16,7 @@ triggers:
     kind: session
     category: git
     inject: true
+    agents: [claude, hermes, codex]
     description: Commit or push when a feature is complete (session hook)
 
   - name: commit-on-feature
@@ -22,6 +24,7 @@ triggers:
     kind: session
     category: git
     inject: true
+    agents: [claude, hermes, codex]
     description: Commit when feature work is done (Chinese when-condition template)
 
   - name: daily-backup
@@ -29,6 +32,7 @@ triggers:
     kind: time
     category: ops
     inject: false
+    agents: [claude, hermes, codex]
     description: Daily backup at 02:00 (requires triggerctl poll / loop)
 
   - name: on-train-done
@@ -36,6 +40,7 @@ triggers:
     kind: event
     category: watch
     inject: false
+    agents: [claude, hermes, codex]
     description: Fire when a done.flag file appears (poll probe)
 
   - name: gated-nightly
@@ -43,4 +48,5 @@ triggers:
     kind: combo
     category: ops
     inject: false
+    agents: [claude, hermes, codex]
     description: Nightly job when schedule AND probe both succeed (AND)
